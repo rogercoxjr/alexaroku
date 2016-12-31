@@ -7,8 +7,8 @@ var dgram = require('dgram');
 //null will cause the server to discover the Roku on startup, hard coding a value will allow for faster startups
 // When manually setting this, include the protocol, port, and trailing slash eg:
 // var rokuAddress = "http://192.168.1.100:8060/";
-var rokuAddress = null; 
-var PORT=1234; //this is the port you are enabling forwarding to. Reminder: you are port forwarding your public IP to the computer playing this script...NOT the roku IP
+var rokuAddress = "http://192.168.2.115:8060/"; 
+var PORT=8087; //this is the port you are enabling forwarding to. Reminder: you are port forwarding your public IP to the computer playing this script...NOT the roku IP
 
 var ssdp = new Client();
 
@@ -123,7 +123,7 @@ var handlers = {
 			100,
 			rokuAddress+"keypress/down",    
 			100, 
-			rokuAddress+"keypress/down",    
+			rokuAddress+"keypress/down",
 			100,			                        
 		]);
 		response.end("OK"); //we provide an OK response before the operation finishes so that our AWS Lambda service doesn't wait around through our delays
@@ -412,8 +412,16 @@ var handlers = {
 				rokuAddress+"keypress/home",    //wake roku
 				rokuAddress+"keypress/home",    //reset to home screen
 				2000,			
-				rokuAddress+"launch/13535",    //open plex
-				7250,
+				rokuAddress+"launch/55188",    //open plex
+				2250,
+				rokuAddress+"keypress/left",
+				250,
+				rokuAddress+"keypress/select",
+				250,
+				],createTypeSequence('4499'),[
+				250,
+				rokuAddress+"keypress/select",
+				3000,
 				rokuAddress+"keypress/up",
 				250,
 				rokuAddress+"keypress/select",
@@ -665,9 +673,9 @@ function hulu(address){
  return address+"launch/2285";
 }
 
-// Launches the Plex channel (id 13535)
+// Launches the Plex channel (id 55188)
 function plex(address){
- return address+"launch/13535";
+ return address+"launch/55188";
 }
 
 // Sends the Home button
